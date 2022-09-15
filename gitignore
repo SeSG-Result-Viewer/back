@@ -1,3 +1,6 @@
+venv
+venv/
+
 # Created by https://www.toptal.com/developers/gitignore/api/pycharm,venv
 # Edit at https://www.toptal.com/developers/gitignore?templates=pycharm,venv
 
@@ -109,7 +112,6 @@ fabric.properties
 [Ll]ocal
 [Ss]cripts
 pyvenv.cfg
-venv
 pip-selfcheck.json
 
 __pycache__/
