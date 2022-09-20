@@ -1,4 +1,19 @@
 import pandas as pd
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"ta on"}
+
+@app.get("/sign-up")
+def cadastrar():
+    return {"cadastrando"}
+
+@app.get("/login")
+def login():
+    return {"login"}
 
 def calculateMetrics(arquivo, gs_size):
     dataFrame = pd.read_csv(arquivo)
