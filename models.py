@@ -11,7 +11,7 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     name = Column(String, unique=True, index=True, nullable=False)
 
-    projects = relationship("Project", back_populates = "owner")
+    projects = relationship("Project", back_populates = "user")
 
 
 class Project(Base):
@@ -20,6 +20,7 @@ class Project(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement = True)
     author = Column(String, index=True)
     execution_number = Column(Integer, ForeignKey("users.id"))
+    
     user = relationship("User", back_populates = "projects")
 
 class Execution(Base):
@@ -30,7 +31,7 @@ class Execution(Base):
     test_number = Column(Integer, ForeignKey("results.QGS"))
     result_id = Column(Integer, ForeignKey("results.id") )
 
-    results = relationship("Result", back_populates="owner")
+    results = relationship("Result", back_populates="exec")
 
 class Result(Base):
     __tablename__ = "results"
@@ -51,5 +52,5 @@ class Result(Base):
     F1_Sts = Column(Float)
     QGS = Column(Integer) #(numero do teste, que vem da tabela execução) 
 
-    owner = relationship("Execution", back_populates = "results")
+    exec = relationship("Execution", back_populates = "results")
 
