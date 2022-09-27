@@ -15,6 +15,7 @@ def cadastrar():
 def login():
     return {"login"}
 
+@app.get("/calc-metrics")
 def calculateMetrics(arquivo, gs_size):
     dataFrame = pd.read_csv(arquivo)
 
@@ -25,4 +26,4 @@ def calculateMetrics(arquivo, gs_size):
     
     dataFrame = dataFrame.fillna(0)
 
-    dataFrame.to_csv(arquivo + '-result-metrics.csv', index = False)
+    return dataFrame.to_csv(arquivo + '-result-metrics.csv', index = False)
