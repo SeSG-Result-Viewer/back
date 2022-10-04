@@ -52,9 +52,9 @@ def me(user: User = Depends(get_logged_in_user)):
     return user
 
 
-@app.get("/calc-metrics")
-def calculateMetrics(arquivo, gs_size):
-    dataFrame = pd.read_csv(arquivo)
+@app.post("/calc-metrics")
+def calculateMetrics(file, filename, gs_size):
+    dataFrame = pd.read_json(file)
 
     dataFrame['precision_gs'] = round(dataFrame['No. GS'] / dataFrame['No. Results'], 5)
     dataFrame['recall_gs'] = round(dataFrame['No. GS'] / gs_size, 5)
@@ -63,4 +63,6 @@ def calculateMetrics(arquivo, gs_size):
     
     dataFrame = dataFrame.fillna(0)
 
-    return dataFrame.to_csv(arquivo + '-result-metrics.csv', index = False)
+    filename_output = filename.replace('-result', '-result-metrics')
+
+    return dataFrame.to_json(filename_output, index = False)
