@@ -2,6 +2,7 @@ from http.client import HTTPException
 
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError
+from fastapi import Depends, status
 
 import token_provider
 

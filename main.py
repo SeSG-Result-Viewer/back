@@ -1,12 +1,14 @@
 from http.client import HTTPException
 
-import security
-import token_provider
-import utils
 import pandas as pd
-
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
+
+import json
+import token_provider
+import security
+from utils import get_logged_in_user
+from classes import User, calc_body
 
 app = FastAPI()
 
@@ -66,18 +68,18 @@ def login(login_data: LoginData, session: Session = Depends(get_db)):
 def me(user: User = Depends(get_logged_in_user)):
     return user
 
-
 @app.post("/calc-metrics")
-def calculateMetrics(file, filename, gs_size):
-    dataFrame = pd.read_json(file)
-
+def calculateMetrics(resquest_body: calc_body):
+    
+    resquest_body.file = json.dumps(resquest_body.file)
+    
+    dataFrame = pd.read_json(resquest_body.file)
+    print(dataFrame.head())
     dataFrame['precision_gs'] = round(dataFrame['No. GS'] / dataFrame['No. Results'], 5)
-    dataFrame['recall_gs'] = round(dataFrame['No. GS'] / gs_size, 5)
-    dataFrame['recall_bsb'] = round(dataFrame['No. Total'] / gs_size, 5)
+    dataFrame['recall_gs'] = round(dataFrame['No. GS'] / resquest_body.gs_size, 5)
+    dataFrame['recall_bsb'] = round(dataFrame['No. Total'] / resquest_body.gs_size, 5)
     dataFrame['gs_f_score'] = round(2 * (dataFrame['precision_gs'] * dataFrame['recall_gs']) / (dataFrame['precision_gs'] + dataFrame['recall_gs']), 5)
     
     dataFrame = dataFrame.fillna(0)
 
-    filename_output = filename.replace('-result', '-result-metrics')
-
-    return dataFrame.to_json(filename_output, index = False)
+    return dataFrame.to_json(orient='records')
