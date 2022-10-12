@@ -42,4 +42,4 @@ class Result (BaseModel):
     F1_Sts: float
     QGS: int 
     
-    owner: str
+    exec: str
