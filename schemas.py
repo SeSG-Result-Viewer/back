@@ -8,7 +8,7 @@ class UserBase(BaseModel):
     hashed_password: str
     name: str
 
-    projects: List[ItemsView] = []
+    projects: List[Item] = []
 
 class Project(BaseModel):
     id: int
@@ -23,7 +23,7 @@ class Execution(BaseModel):
     test_number: int
     result_id: int
 
-    results: List[ItemsView] = []
+    results: List[Item] = []
 
 class Result (BaseModel):
     id: int
