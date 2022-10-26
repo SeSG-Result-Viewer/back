@@ -9,6 +9,9 @@ class UserBase(BaseModel):
     name: str
 
     projects: List[Item] = []
+    
+    class Config:
+        orm_mode = True
 
 class Project(BaseModel):
     id: int
@@ -16,6 +19,9 @@ class Project(BaseModel):
     execution_number: int
 
     user: str
+        
+    class Config:
+        orm_mode = True
     
 class Execution(BaseModel):
     id: int
@@ -24,6 +30,9 @@ class Execution(BaseModel):
     result_id: int
 
     results: List[Item] = []
+    
+    class Config:
+        orm_mode = True
 
 class Result (BaseModel):
     id: int
@@ -43,3 +52,6 @@ class Result (BaseModel):
     QGS: int 
     
     exec: str
+        
+    class Config:
+        orm_mode = True
