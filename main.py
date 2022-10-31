@@ -75,7 +75,6 @@ def calculateMetrics(resquest_body: calc_body):
     resquest_body.file = json.dumps(resquest_body.file)
     
     dataFrame = pd.read_json(resquest_body.file)
-    print(dataFrame.head())
     dataFrame['precision_gs'] = round(dataFrame['No. GS'] / dataFrame['No. Results'], 5)
     dataFrame['recall_gs'] = round(dataFrame['No. GS'] / resquest_body.gs_size, 5)
     dataFrame['recall_bsb'] = round(dataFrame['No. Total'] / resquest_body.gs_size, 5)
