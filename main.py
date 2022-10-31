@@ -3,6 +3,7 @@ from http.client import HTTPException
 import pandas as pd
 from fastapi import FastAPI, Depends, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
 
 import json
 import token_provider
