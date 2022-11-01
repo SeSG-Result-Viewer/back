@@ -8,3 +8,7 @@ class User(BaseModel):
     nome: str
     email: str
     senha: str
+
+class LoginData(BaseModel):
+    email: str
+    senha: str
