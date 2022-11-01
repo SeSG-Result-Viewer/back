@@ -34,4 +34,8 @@ class UserRepository():
 
     @staticmethod
     def exists_by_id(db: Session, id: int) -> bool:
-        return db.query(User).filter(User.id == id).first() is not None
+        return db.query(User).filter(User.id == id).first()
+    
+    @staticmethod
+    def get_user_by_email(db: Session, email: str):
+        return db.query(models.User).filter(models.User.email == email).first()
