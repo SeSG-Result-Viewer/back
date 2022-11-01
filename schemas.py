@@ -8,7 +8,7 @@ class UserBase(BaseModel):
     hashed_password: str
     name: str
 
-    projects: List[Item] = []
+    projects: List[Projects] = []
     
     class Config:
         orm_mode = True
@@ -29,7 +29,7 @@ class Execution(BaseModel):
     test_number: int
     result_id: int
 
-    results: List[Item] = []
+    results: List[Result] = []
     
     class Config:
         orm_mode = True
