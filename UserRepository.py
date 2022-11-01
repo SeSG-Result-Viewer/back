@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
-from .schemas import schemas
-from .models import User
+
+import schemas
+from models import User
 
 
 class UserRepository():
@@ -11,8 +12,8 @@ class UserRepository():
         self.session = session
 
     @staticmethod
-    def create(self, user: schemas.User):
-        user_bd = models.User(email=user.email,
+    def create(self, user: schemas.UserBase):
+        user_bd = User(email=user.email,
                               id=user.id,
                               hashed_password=user.hashed_password,
                               name=user.name)
@@ -26,11 +27,11 @@ class UserRepository():
         return db.query(User).all()
 
     @staticmethod
-    def find_by_id(self, id) -> models.user:
-        query = select(models.user).where(
-            models.user.id == id)
+    def find_by_id(self, id) -> User:
+        query = select(User).where(
+            User.id == id)
         return self.session.execute(query).scalars().first()
 
     @staticmethod
     def exists_by_id(db: Session, id: int) -> bool:
-        return db.query(models.user).filter(models.user.id == id).first() is not None
+        return db.query(User).filter(User.id == id).first() is not None

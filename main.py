@@ -1,15 +1,16 @@
 from http.client import HTTPException
 
 import pandas as pd
+import json
 from fastapi import FastAPI, Depends, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-import json
-import token_provider
-import security
+import token_provider, security, UserRepository
 from utils import get_logged_in_user
-from classes import User, calc_body
+from classes import User, calc_body, LoginData
+from database import get_db
+
 
 app = FastAPI()
 
@@ -33,13 +34,13 @@ def home():
 @app.post("/sign-up", status_code=status.HTTP_201_CREATED, response_model=User)
 def sign_up_user(user: User, session: Session = Depends(get_db)):
     # Verifica se já existe um usuário com esse email
-    registered_user = Repository(session).get_user_by_email(user.email)
+    registered_user = UserRepository(session).get_user_by_email(user.email)
     if registered_user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="E-mail already registered!")
 
     # Criar usuário
     user.password = security.get_password_hash(user.password)    #hash para senha
-    created_user = Repository(session).create(user)
+    created_user = UserRepository(session).create(user)
     return created_user
 
 @app.post("/login")
@@ -47,7 +48,7 @@ def login(login_data: LoginData, session: Session = Depends(get_db)):
     password = login_data.password
     email = login_data.email
 
-    user = Repository(session).get_user_by_email(email)
+    user = UserRepository(session).get_user_by_email(email)
     # Se email não encontrado no BD
     if not user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid e-mail or password")
@@ -61,16 +62,13 @@ def login(login_data: LoginData, session: Session = Depends(get_db)):
     token = token_provider.create_access_token({'sub': user.email})
 
     return {'user': user, 'access_token': token}
-    #Se existir a classe "LoginSuccess"
-    #return LoginSuccess(user=user, access_token=token)
-    #e adiciona response_model=LoginSucesso
 
 @app.get('/me', response_model=SimpleUser)        #para ver se o usuario esta logado
 def me(user: User = Depends(get_logged_in_user)):
     return user
 
 @app.post("/calc-metrics")
-def calculateMetrics(resquest_body: calc_body):
+def calculate_metrics(resquest_body: calc_body):
     
     resquest_body.file = json.dumps(resquest_body.file)
     

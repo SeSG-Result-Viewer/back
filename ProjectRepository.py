@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
-from .schemas import schemas
-from .models import Project
+
+import schemas
+from models import Project
 
 
 class ProjectRepository():
@@ -12,7 +13,7 @@ class ProjectRepository():
 
     @staticmethod
     def create(self, project: schemas.Project):
-        project_bd = models.Project(
+        project_bd = Project(
                               id=project.id,
                               author=project.author,
                               execution_number=project.execution_number,
@@ -27,11 +28,11 @@ class ProjectRepository():
         return db.query(Project).all()
 
     @staticmethod
-    def find_by_id(self, id) -> models.project:
-        query = select(models.project).where(
-            models.project.id == id)
+    def find_by_id(self, id) -> Project:
+        query = select(Project).where(
+            Project.id == id)
         return self.session.execute(query).scalars().first()
 
     @staticmethod
     def exists_by_id(db: Session, id: int) -> bool:
-        return db.query(models.project).filter(models.project.id == id).first() is not None
+        return db.query(Project).filter(Project.id == id).first() is not None

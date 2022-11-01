@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
-from .schemas import schemas
-from .models import Execution
+
+import schemas
+from models import Execution
 
 
 class ExecutionRepository():
@@ -11,8 +12,8 @@ class ExecutionRepository():
         self.session = session
 
     @staticmethod
-    def create(self, execution: schemas.execution):
-        execution_bd = models.Execution(
+    def create(self, execution: schemas.Execution):
+        execution_bd = Execution(
                               id=execution.id,
                               qgd=execution.qgd,
                               test_number=execution.test_number,
@@ -28,18 +29,17 @@ class ExecutionRepository():
         return db.query(Execution).all()
 
     @staticmethod
-    def find_by_id(self, id) -> models.execution:
-        query = select(models.execution).where(
-            models.execution.id == id)
+    def find_by_id(self, id) -> Execution:
+        query = select(Execution).where(
+            Execution.id == id)
         return self.session.execute(query).scalars().first()
 
     @staticmethod
     def exists_by_id(db: Session, id: int) -> bool:
-        return db.query(models.execution).filter(models.execution.id == id).first() is not None
+        return db.query(Execution).filter(Execution.id == id).first() is not None
 
     @staticmethod
-    def find_by_execution_number(self, execution_number) -> models.execution:
-        query = select(models.execution).where(
-            models.execution.execution_number == execution_number)
+    def find_by_execution_number(self, execution_number) -> Execution:
+        query = select(Execution).where(
+            Execution.execution_number == execution_number)
         return self.session.execute(query).scalars().first()
-
