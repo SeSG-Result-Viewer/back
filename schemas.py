@@ -1,6 +1,7 @@
 from typing import ItemsView, List, Union, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel 
+import models
 
 class UserBase(BaseModel):
     email: str
@@ -8,7 +9,7 @@ class UserBase(BaseModel):
     hashed_password: str
     name: str
 
-    projects: List[Projects] = []
+    projects: List[models.Project] = []
     
     class Config:
         orm_mode = True
@@ -29,7 +30,7 @@ class Execution(BaseModel):
     test_number: int
     result_id: int
 
-    results: List[Result] = []
+    results: List[models.Result] = []
     
     class Config:
         orm_mode = True
