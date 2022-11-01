@@ -7,8 +7,8 @@ class calc_body(BaseModel):
 class User(BaseModel):
     nome: str
     email: str
-    senha: str
+    password: str
 
 class LoginData(BaseModel):
     email: str
-    senha: str
+    password: str
