@@ -5,7 +5,7 @@ class calc_body(BaseModel):
     gs_size: int
 
 class User(BaseModel):
-    nome: str
+    name: str
     email: str
     password: str
 
