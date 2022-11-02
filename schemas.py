@@ -3,27 +3,6 @@ from typing import ItemsView, List, Union, Optional
 from pydantic import BaseModel 
 import models
 
-class User(BaseModel):
-    email: str
-    id: int
-    hashed_password: str
-    name: str
-
-    projects: List[models.Project] = []
-    
-    class Config:
-        orm_mode = True
-        
-class UserSimple(BaseModel):
-    email: str
-    id: int
-    name: str
-
-    projects: List[models.Project] = []
-    
-    class Config:
-        orm_mode = True
-
 class Project(BaseModel):
     id: int
     author: str
@@ -33,14 +12,24 @@ class Project(BaseModel):
         
     class Config:
         orm_mode = True
-    
-class Execution(BaseModel):
-    id: int
-    qgd: str 
-    test_number: int
-    result_id: int
 
-    results: List[models.Result] = []
+class User(BaseModel):
+    email: str
+    id: int
+    hashed_password: str
+    name: str
+
+    projects: List[Project] = []
+    
+    class Config:
+        orm_mode = True
+        
+class UserSimple(BaseModel):
+    email: str
+    id: int
+    name: str
+
+    projects: List[Project] = []
     
     class Config:
         orm_mode = True
@@ -64,5 +53,16 @@ class Result (BaseModel):
     
     exec: str
         
+    class Config:
+        orm_mode = True
+        
+class Execution(BaseModel):
+    id: int
+    qgd: str 
+    test_number: int
+    result_id: int
+
+    results: List[Result] = []
+    
     class Config:
         orm_mode = True
