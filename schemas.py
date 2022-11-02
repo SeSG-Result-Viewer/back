@@ -3,10 +3,20 @@ from typing import ItemsView, List, Union, Optional
 from pydantic import BaseModel 
 import models
 
-class UserBase(BaseModel):
+class User(BaseModel):
     email: str
     id: int
     hashed_password: str
+    name: str
+
+    projects: List[models.Project] = []
+    
+    class Config:
+        orm_mode = True
+        
+class UserSimple(BaseModel):
+    email: str
+    id: int
     name: str
 
     projects: List[models.Project] = []
