@@ -34,6 +34,10 @@ class SimpleUser(BaseModel):
     class Config:
         orm_mode = True
 
+class LoginData(BaseModel):
+    email: str
+    password: str
+
 class Result (BaseModel):
     id: int
     graph_id: int

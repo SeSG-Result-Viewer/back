@@ -8,8 +8,8 @@ from sqlalchemy.orm import Session
 
 import token_provider, security, UserRepository
 from utils import get_logged_in_user
-from classes import calc_body, LoginData
-from schemas import User, SimpleUser
+from classes import calc_body
+from schemas import User, SimpleUser, LoginData
 from database import get_db
 
 

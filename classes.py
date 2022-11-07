@@ -13,6 +13,6 @@ class calc_body(BaseModel):
 #     name: str
 #     email: str
 
-class LoginData(BaseModel):
-    email: str
-    password: str
+# class LoginData(BaseModel):
+#     email: str
+#     password: str
