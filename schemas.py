@@ -24,7 +24,7 @@ class User(BaseModel):
     class Config:
         orm_mode = True
         
-class UserSimple(BaseModel):
+class SimpleUser(BaseModel):
     email: str
     id: int
     name: str

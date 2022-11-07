@@ -12,7 +12,7 @@ class UserRepository():
         self.session = session
 
     @staticmethod
-    def create(self, user: schemas.UserBase):
+    def create(self, user: schemas.User):
         user_bd = User(email=user.email,
                               id=user.id,
                               hashed_password=user.hashed_password,
