@@ -6,10 +6,11 @@ from fastapi import FastAPI, Depends, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-import token_provider, security, UserRepository
+import token_provider, security
+from UserRepository import UserRepository
 from utils import get_logged_in_user
-from classes import calc_body
-from schemas import User, SimpleUser, LoginData
+from classes import calc_body, UserResponse
+from schemas import SimpleUser, LoginData, User
 from database import get_db
 
 
@@ -26,14 +27,14 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-)
+) 
 
 @app.get("/")
 def home():
     return {"ta on"}
 
-@app.post("/sign-up", status_code=status.HTTP_201_CREATED, response_model=User)
-def sign_up_user(user: User, session: Session = Depends(get_db)):
+@app.post("/sign-up", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
+def sign_up_user(user: UserResponse, session: Session = Depends(get_db)):
     # Verifica se já existe um usuário com esse email
     registered_user = UserRepository(session).get_user_by_email(user.email)
     if registered_user:
