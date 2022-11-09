@@ -4,7 +4,7 @@ from pydantic import BaseModel
 import models
 
 class Project(BaseModel):
-    id: int
+    id: Optional[int] = None
     author: str
     execution_number: int
 
@@ -15,21 +15,21 @@ class Project(BaseModel):
 
 class User(BaseModel):
     email: str
-    id: int
+    id Optional[int] = None
     hashed_password: str
     name: str
 
-    projects: List[Project] = []
+    projects: Optional[List[Project]] = []
     
     class Config:
         orm_mode = True
         
 class SimpleUser(BaseModel):
     email: str
-    id: int
+    id: Optional[int] = None
     name: str
 
-    projects: List[Project] = []
+    projects: Optional[List[Project]] = []
     
     class Config:
         orm_mode = True
@@ -39,7 +39,7 @@ class LoginData(BaseModel):
     password: str
 
 class Result (BaseModel):
-    id: int
+    id: Optional[int] = None
     graph_id: int
     min_df: float
     Topics: int
@@ -61,12 +61,12 @@ class Result (BaseModel):
         orm_mode = True
         
 class Execution(BaseModel):
-    id: int
+    id: Optional[int] = None
     qgd: str 
     test_number: int
     result_id: int
 
-    results: List[Result] = []
+    results: Optional[List[Result]] = []
     
     class Config:
         orm_mode = True
