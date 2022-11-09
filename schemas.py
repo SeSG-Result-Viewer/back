@@ -15,7 +15,7 @@ class Project(BaseModel):
 
 class User(BaseModel):
     email: str
-    id Optional[int] = None
+    id: Optional[int] = None
     hashed_password: str
     name: str
 
