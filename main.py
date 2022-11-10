@@ -11,10 +11,24 @@ from UserRepository import UserRepository
 from utils import get_logged_in_user
 from classes import calc_body, UserResponse
 from schemas import SimpleUser, LoginData, User
-from database import get_db
+from database import get_db, create_db
 
+create_db()
 
 app = FastAPI()
+
+def starting(app):
+    @app.on_event("startup")
+    async def startup_event():
+        create_db()
+        db = get_db()
+    
+    @app.on_event("shutdown")
+    def shutdown_event():
+        
+        print("dada")    
+
+starting(app)
 
 #CORS
 origins = [
@@ -33,14 +47,16 @@ app.add_middleware(
 def home():
     return {"ta on"}
 
-@app.post("/sign-up", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
+@app.post("/sign-up", status_code=status.HTTP_201_CREATED, response_model=SimpleUser)
 def sign_up_user(user: User, session: Session = Depends(get_db)):
     
     # Verifica se já existe um usuário com esse email
     registered_user = UserRepository(session).get_user_by_email(user.email)
+    print(registered_user)
     if registered_user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="E-mail already registered!")
-
+        return {}
+    print("lalala")
     # validação de formato de email
     if not re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+').match(user.email):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="The user email format is invalid!") 
@@ -48,9 +64,9 @@ def sign_up_user(user: User, session: Session = Depends(get_db)):
     # Criar usuário
     user.hashed_password = security.get_password_hash(user.hashed_password)    #hash para senha
     created_user = UserRepository(session).create(user)
-    return created_user
+    return {'name': created_user.name, 'email':created_user.email} 
 
-@app.post("/login")
+""" @app.post("/login")
 def login(login_data: LoginData, session: Session = Depends(get_db)):
     password = login_data.password
     email = login_data.email
@@ -88,3 +104,4 @@ def calculate_metrics(resquest_body: calc_body):
     dataFrame = dataFrame.fillna(0)
 
     return dataFrame.to_json(orient='records')
+ """

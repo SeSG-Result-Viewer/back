@@ -32,4 +32,7 @@ class UserRepository():
         return self.session.query(User).filter(User.id == id).first()
     
     def get_user_by_email(self, email: str):
+        print(email)
+        teste = self.session.query(User).filter(User.email == email).first()
+        
         return self.session.query(User).filter(User.email == email).first()
