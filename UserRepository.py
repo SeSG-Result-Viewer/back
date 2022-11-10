@@ -7,11 +7,9 @@ from models import User
 
 class UserRepository():
 
-    @staticmethod
     def __init__(self, session: Session):
         self.session = session
 
-    @staticmethod
     def create(self, user: schemas.User):
         user_bd = User(email=user.email,
                               id=user.id,
@@ -22,20 +20,16 @@ class UserRepository():
         self.session.refresh(user_bd)
         return user_bd
 
-    @staticmethod
-    def find_all(db: Session) -> list[User]:
-        return db.query(User).all()
+    def find_all(self) -> list[User]:
+        return self.session.query(User).all()
 
-    @staticmethod
     def find_by_id(self, id) -> User:
         query = select(User).where(
             User.id == id)
         return self.session.execute(query).scalars().first()
 
-    @staticmethod
-    def exists_by_id(db: Session, id: int) -> bool:
-        return db.query(User).filter(User.id == id).first()
+    def exists_by_id(self, id: int) -> bool:
+        return self.session.query(User).filter(User.id == id).first()
     
-    @staticmethod
-    def get_user_by_email(db: Session, email: str):
-        return db.query(User).filter(User.email == email).first()
+    def get_user_by_email(self, email: str):
+        return self.session.query(User).filter(User.email == email).first()

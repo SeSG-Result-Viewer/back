@@ -1,7 +1,7 @@
 from http.client import HTTPException
 
 import pandas as pd
-import json
+import json, re
 from fastapi import FastAPI, Depends, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -34,14 +34,19 @@ def home():
     return {"ta on"}
 
 @app.post("/sign-up", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
-def sign_up_user(user: UserResponse, session: Session = Depends(get_db)):
+def sign_up_user(user: User, session: Session = Depends(get_db)):
+    
     # Verifica se já existe um usuário com esse email
     registered_user = UserRepository(session).get_user_by_email(user.email)
     if registered_user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="E-mail already registered!")
 
+    # validação de formato de email
+    if not re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+').match(user.email):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="The user email format is invalid!") 
+
     # Criar usuário
-    user.password = security.get_password_hash(user.password)    #hash para senha
+    user.hashed_password = security.get_password_hash(user.hashed_password)    #hash para senha
     created_user = UserRepository(session).create(user)
     return created_user
 
