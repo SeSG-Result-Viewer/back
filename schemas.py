@@ -24,10 +24,6 @@ class LoginData(BaseModel):
     email: str
     password: str
 
-class SucessLogin(BaseModel):
-    usuario: SimpleUser
-    access_token: str
-
 class calc_body(BaseModel):
     file: list
     gs_size: int

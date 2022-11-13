@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from UserRepository import UserRepository
-from schemas import SimpleUser, LoginData, User, calc_body, SucessLogin
+from schemas import SimpleUser, LoginData, User, calc_body
 
 from database import get_db, create_db
 from utils import get_logged_in_user
@@ -66,7 +66,7 @@ def sign_up_user(user: User, session: Session = Depends(get_db)):
     created_user = UserRepository(session).create(user)
     return {'name': created_user.name, 'email':created_user.email} 
 
-@app.post("/login", response_model=SucessLogin)
+@app.post("/login")
 def login(login_data: LoginData, session: Session = Depends(get_db)):
     password = login_data.password
     email = login_data.email
