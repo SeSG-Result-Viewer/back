@@ -76,14 +76,13 @@ def login(login_data: LoginData, session: Session = Depends(get_db)):
     if not user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid e-mail or password")
 
-    valid_password = security.verify_password(password, user.password)
+    valid_password = security.verify_password(password, user.hashed_password)
     # Se senha for inválida
     if not valid_password:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid e-mail or password")
 
     #Gerar token JWT
-    token = token_provider.create_access_token({'sub': user.email})
-
+    token: str = token_provider.create_access_token({'email': user.email})
     return {'user': user, 'access_token': token}
 
 @app.get('/me', response_model=SimpleUser)        #para ver se o usuario esta logado
