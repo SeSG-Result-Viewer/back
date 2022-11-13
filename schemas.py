@@ -1,15 +1,20 @@
-from typing import Optional #, ItemsView, List, Union 
+from typing import Optional , ItemsView, List, Union 
 
 from pydantic import BaseModel 
-#import models
+
+class Project(BaseModel):
+    author: str
+    execution_number: int
+
+    user: str
+        
+    class Config:
+        orm_mode = True
 
 class User(BaseModel):
     name: str
     email: str
     hashed_password: str
-    id: Optional[int] = None
-
-    # projects: Optional[List[Project]] = []
     
     class Config:
         orm_mode = True
@@ -18,8 +23,6 @@ class SimpleUser(BaseModel):
     email: str
     name: str
 
-    #projects: Optional[List[Project]] = []
-
 class LoginData(BaseModel):
     email: str
     password: str
@@ -27,16 +30,6 @@ class LoginData(BaseModel):
 class calc_body(BaseModel):
     file: list
     gs_size: int
-
-""" class Project(BaseModel):
-    id: Optional[int] = None
-    author: str
-    execution_number: int
-
-    user: str
-        
-    class Config:
-        orm_mode = True
 
 class Result (BaseModel):
     id: Optional[int] = None
@@ -69,4 +62,4 @@ class Execution(BaseModel):
     results: Optional[List[Result]] = []
     
     class Config:
-        orm_mode = True """
+        orm_mode = True

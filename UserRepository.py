@@ -4,21 +4,19 @@ from sqlalchemy import select
 import schemas
 from models import User
 
-
 class UserRepository():
 
     def __init__(self, session: Session):
         self.session = session
 
     def create(self, user: schemas.User):
-        user_bd = User(email=user.email,
-                              id=user.id,
-                              hashed_password=user.hashed_password,
-                              name=user.name)
-        self.session.add(user_bd)
+        user_db = User( name=user.name,
+                        email=user.email,
+                        hashed_password=user.hashed_password)
+        self.session.add(user_db)
         self.session.commit()
-        self.session.refresh(user_bd)
-        return user_bd
+        self.session.refresh(user_db)
+        return user_db
 
     def find_all(self) -> list[User]:
         return self.session.query(User).all()
@@ -32,5 +30,4 @@ class UserRepository():
         return self.session.query(User).filter(User.id == id).first()
     
     def get_user_by_email(self, email: str):
-        return self.session.query(User).filter(User.email == email).first()
-    
+        return self.session.query(User).filter(User.email == email).first()  

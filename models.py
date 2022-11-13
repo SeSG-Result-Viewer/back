@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Float
+from sqlalchemy import Column, ForeignKey, Integer, String, Float
 from sqlalchemy.orm import relationship
 
 from database import Base
@@ -11,8 +11,8 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
 
-    #projects = relationship("Project", back_populates = "user")
-""" 
+    projects = relationship("Project", back_populates = "user")
+
 class Project(Base):
     __tablename__ = "projects"
 
@@ -56,4 +56,4 @@ class Result(Base):
 
     id_execution = Column(Integer, ForeignKey("executions.id"))
 
-    executions = relationship("Execution", back_populates = "results") """
+    executions = relationship("Execution", back_populates = "results")
