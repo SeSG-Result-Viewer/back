@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from UserRepository import UserRepository
-from schemas import SimpleUser, LoginData, User, calc_body
+from schemas import SimpleUser, LoginData, User, calc_body, SucessLogin
 
 from database import get_db, create_db
 from utils import get_logged_in_user
@@ -66,7 +66,7 @@ def sign_up_user(user: User, session: Session = Depends(get_db)):
     created_user = UserRepository(session).create(user)
     return {'name': created_user.name, 'email':created_user.email} 
 
-@app.post("/login")
+@app.post("/login", response_model=SucessLogin)
 def login(login_data: LoginData, session: Session = Depends(get_db)):
     password = login_data.password
     email = login_data.email
@@ -76,7 +76,7 @@ def login(login_data: LoginData, session: Session = Depends(get_db)):
     if not user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid e-mail or password")
 
-    valid_password = security.verify_password(password, user.password)
+    valid_password = security.verify_password(password, user.hashed_password)
     # Se senha for inválida
     if not valid_password:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid e-mail or password")
@@ -84,7 +84,7 @@ def login(login_data: LoginData, session: Session = Depends(get_db)):
     #Gerar token JWT
     token = token_provider.create_access_token({'sub': user.email})
 
-    return {'user': user, 'access_token': token}
+    return {'name': user.name, 'email':user.email, 'access_token': token}   #, 'access_token': token
 
 @app.get('/me', response_model=SimpleUser)        #para ver se o usuario esta logado
 def me(user: User = Depends(get_logged_in_user)):
