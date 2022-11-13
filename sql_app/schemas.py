@@ -1,4 +1,4 @@
-from typing import Optional , ItemsView, List, Union 
+from typing import Optional, List
 
 from pydantic import BaseModel 
 
@@ -20,8 +20,8 @@ class User(BaseModel):
         orm_mode = True
         
 class SimpleUser(BaseModel):
-    email: str
     name: str
+    email: str
 
 class LoginData(BaseModel):
     email: str

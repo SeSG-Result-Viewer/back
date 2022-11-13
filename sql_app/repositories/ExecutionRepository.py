@@ -1,9 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
-import schemas
-from models import Execution
-
+import sql_app.schemas as schemas
+from sql_app.models import Execution
 
 class ExecutionRepository():
 

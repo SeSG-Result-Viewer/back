@@ -1,17 +1,14 @@
 from http.client import HTTPException
-
 import pandas as pd
 import json, re
 import token_provider, security
-
 from fastapi import FastAPI, Depends, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-from UserRepository import UserRepository
-from schemas import SimpleUser, LoginData, User, calc_body
-
-from database import get_db, create_db
+from sql_app.repositories.UserRepository import UserRepository
+from sql_app.schemas import SimpleUser, LoginData, User, calc_body
+from sql_app.database import get_db, create_db
 from utils import get_logged_in_user
 
 create_db()

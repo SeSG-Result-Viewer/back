@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from lib2to3.pgen2 import token
 from jose import jwt
 
 SECRET_KEY = '449f2562136bd59e79e4cf8c683481ff'

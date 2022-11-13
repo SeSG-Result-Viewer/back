@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
-import schemas
-from models import Project
+import sql_app.schemas as schemas
+from sql_app.models import Project
 
 
 class ProjectRepository():

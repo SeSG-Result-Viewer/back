@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select, update
 
-import schemas
-from models import Result
+import sql_app.schemas as schemas
+from sql_app.models import Result
 
 class resultRepository():
 
