@@ -1,3 +1,13 @@
+# Result Viewer (backend)
+
+
+## Pré-requisito
+Para o Back-End, faça a instalação do Python → https://www.python.org/downloads/
+
+[Tutorial de instalação Python](https://python.org.br/instalacao-windows/)
+
+### Tutorial de instalação: https://youtu.be/fBel1af6v9c
+
 ## Instruções para instalar as dependências
 
 + Primeiramente, crie um ambiente virtual.
